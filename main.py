@@ -16,15 +16,16 @@ blue = (0, 0, 255)
 clock = pygame.time.Clock()
 
 #creating board
-board = [[piece(i, j, green) for j in range(8)] for i in range(8)]
-#def resetBoard():
-#    for i in range(8):
-#        for j in range(8):
-#            board[i][j](piece(i, j, white))
+board = [[piece(i, j) for j in range(8)] for i in range(8)]
+
+def resetBoard():
+    for i in range(8):
+        for j in range(8):
+            board[i][j].color = board[i][j].startColor()
 
 #creating game surface
 gameSurface = pygame.display.set_mode((surfaceWidth, surfaceHeight))
-pygame.display.set_caption("Checkers by Varun")
+pygame.display.set_caption("PyCheckers")
 
 #function to draw all pieces
 def drawPieces():
