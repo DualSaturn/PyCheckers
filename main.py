@@ -77,7 +77,12 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
-
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = pygame.mouse.get_pos()
+            for i in range(len(board)):
+                for j in range(len(board[i])):
+                    board [i][j].handleClick(mouse_pos[0], mouse_pos[1])
+            
     gameSurface.fill(black)
     drawBoardOutline()
     drawPieces()
