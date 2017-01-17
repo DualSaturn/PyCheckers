@@ -15,28 +15,35 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 clock = pygame.time.Clock()
 
+#creating game surface
+gameSurface = pygame.display.set_mode((surfaceWidth, surfaceHeight))
+pygame.display.set_caption("PyCheckers")
+
 #creating board
-board = [[piece(i, j) for j in range(8)] for i in range(8)]
+#board = [[piece(i, j) for j in range(8)] for i in range(8)]
+board = []
+def createBoard():
+    xCoordinate = 156.25
+    yCoordinate = 156.25
+    for i in range(8):
+        board.append([])
+        for j in range(8):
+            board[i].append(piece(i, j, xCoordinate, yCoordinate, gameSurface))
+            xCoordinate = xCoordinate + 62.5
+        yCoordinate = yCoordinate + 62.5
+        xCoordinate = 156.25
+
 
 def resetBoard():
     for i in range(8):
         for j in range(8):
             board[i][j].color = board[i][j].startColor()
 
-#creating game surface
-gameSurface = pygame.display.set_mode((surfaceWidth, surfaceHeight))
-pygame.display.set_caption("PyCheckers")
-
 #function to draw all pieces
 def drawPieces():
-    xCoordinate = 156.25
-    yCoordinate = 156.25
-    for i in range(8):
-        for j in range(8):
-            pygame.draw.circle(gameSurface, board[i][j].color, (int(xCoordinate), int(yCoordinate)), 20)
-            xCoordinate = xCoordinate + 62.5
-        yCoordinate = yCoordinate + 62.5
-        xCoordinate = 156.25
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            board[i][j].draw()
 
 #function to draw the board's outline
 def drawBoardOutline():
@@ -64,12 +71,18 @@ def drawBoardOutline():
         pygame.draw.line(gameSurface, white, x[0], x[1], 3)
 
 #main game loop
+createBoard()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
             quit()
-
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            mouse_pos = pygame.mouse.get_pos()
+            for i in range(len(board)):
+                for j in range(len(board[i])):
+                    board [i][j].handleClick(mouse_pos[0], mouse_pos[1])
+            
     gameSurface.fill(black)
     drawBoardOutline()
     drawPieces()
